@@ -1,0 +1,50 @@
+.app {
+  text-align: center;
+}
+
+.square{
+  border: 1px solid black;
+  height: 50px;
+  width: 50px;
+  display: inline-block;
+  height: 50px;
+  width: 50px;
+  padding-top: 3px;
+  align-items: center;
+}
+
+.board-squares{
+  margin: 0px 100px 0px 100px;
+  border-collapse: collapse;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.board-squares tr td{
+  height: 50px;
+  width: 50px;
+  padding: 0px;
+  margin: 0px;  
+  line-height: 0px;
+}
+
+.loading-knight{
+  height: 50px;
+  flex-shrink: 0;
+  animation: spin 2s infinite ease-out both;
+}
+
+.loading-screen{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 500px;
+  width: 500px;
+}
+
+@keyframes spin{
+  0% {transform: rotate(0deg); height: 50px}
+  45% {transform: rotate(720deg); height: 80px;}
+  55% {transform: rotate(720deg); height: 80px}
+  100% {transform: rotate(1440deg); height: 50px}
+}
