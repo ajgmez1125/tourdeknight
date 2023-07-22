@@ -13,7 +13,7 @@ function Board()
     const[boardSquares, setBoardSquares] = useState([[]])
 
     const[apiLoading, setApiLoading] = useState(false);
-    const[adjList, setAdjList] = useState([])
+    const[knightPath, setKnightPath] = useState([])
 
     const api = '';
 

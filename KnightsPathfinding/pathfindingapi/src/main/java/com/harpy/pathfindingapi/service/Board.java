@@ -1,12 +1,13 @@
+package com.harpy.pathfindingapi.service;
+
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 
-class Board
+public class Board
 {
     private int x;
     private int y;
-    private ArrayList<Square> squares = new ArrayList<Square>();
+    private ArrayList<int[]> squares = new ArrayList<int[]>();
     public Board(int x, int y)
     {
         this.x = x;
@@ -20,12 +21,12 @@ class Board
         {
             for(int x = 1; x <= this.x; x++)
             {
-                squares.add(new Square(new int[] {x,y}));
+                squares.add(new int[] {x,y});
             }
         }
     }
 
-    public HashMap<Integer, ArrayList<Square>> generateObjAdjacencyMap(Knight knight)
+    public HashMap<Integer, ArrayList<int[]>> generateObjAdjacencyMap(Knight knight)
     {
         return new Pathfinding(this, knight).generate();
     }
@@ -40,7 +41,7 @@ class Board
         return this.y;
     }
 
-    public ArrayList<Square> getSquares()
+    public ArrayList<int[]> getSquares()
     {
         return this.squares;
     }

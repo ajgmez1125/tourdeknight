@@ -1,4 +1,6 @@
-class Knight
+package com.harpy.pathfindingapi.service;
+
+public class Knight
 {
     private int[] coordinates;
     private static int[][] moveSet = {{1,2}, {2,1}, {-1,-2}, {-2,-1}, {1,-2}, {2,-1}, {-1,2}, {-2,1}};

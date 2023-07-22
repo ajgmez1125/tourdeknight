@@ -1,14 +1,13 @@
-package com.example.knightpathfindingapi;
+package com.harpy.pathfindingapi;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class KnightpathfindingapiApplication {
+public class PathfindingapiApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(KnightpathfindingapiApplication.class, args);
-		System.out.println("HI!");
+		SpringApplication.run(PathfindingapiApplication.class, args);
 	}
 
 }

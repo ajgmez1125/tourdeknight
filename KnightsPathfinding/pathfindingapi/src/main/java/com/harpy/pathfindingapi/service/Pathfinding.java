@@ -1,14 +1,14 @@
+package com.harpy.pathfindingapi.service;
+
 import java.util.HashMap;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.Queue;
 
-class Pathfinding
+public class Pathfinding
 {
-    private HashMap<Integer, ArrayList<Square>> adjMap = new HashMap<Integer, ArrayList<Square>>();
-    private HashMap<Square, Boolean> checkList = new HashMap<Square, Boolean>();
-    private ArrayList<Square> searchQueue = new ArrayList<Square>();
+    private HashMap<Integer, ArrayList<int[]>> adjMap = new HashMap<Integer, ArrayList<int[]>>();
+    private HashMap<int[], Boolean> checkList = new HashMap<int[], Boolean>();
+    private ArrayList<int[]> searchQueue = new ArrayList<int[]>();
     private Board board;
     private Knight knight;
 
@@ -17,17 +17,9 @@ class Pathfinding
         this.knight = knight;
         this.board = board;
     }
-
-    private void printAdjMap()
-    {
-        for(int i = 0; i < adjMap.size(); i++)
-        {
-            System.out.println(i + ": " + printList(adjMap.get(i)));
-        }
-    }
     
 
-    public HashMap<Integer, ArrayList<Square>> generate()
+    public HashMap<Integer, ArrayList<int[]>> generate()
     {
         //Adds the init position of knight to search
         searchQueue.add(getSquareFromBoard(knight.getCoordinates()));
@@ -39,13 +31,14 @@ class Pathfinding
             findNextDepth();
             depth++;
         }
+        System.out.println(adjMap);
         return adjMap;
     }
 
     //Finds all adjacencies for given depth
     private void findNextDepth()
     {
-        ArrayList<Square> nextDepth = new ArrayList<Square>();
+        ArrayList<int[]> nextDepth = new ArrayList<int[]>();
         for(int i = 0; i < searchQueue.size(); i++)
         {
             nextDepth.addAll(getAdjacentSquares(searchQueue.get(i)));
@@ -58,18 +51,16 @@ class Pathfinding
     }
 
     //Finds specific adjacencies for given square
-    private ArrayList<Square> getAdjacentSquares(Square square)
+    private ArrayList<int[]> getAdjacentSquares(int[] square)
     {
-        ArrayList<Square> currentAdjacencies = new ArrayList<Square>();
-        int[] currentMove = square.getCoordinates();
+        ArrayList<int[]> currentAdjacencies = new ArrayList<int[]>();
         int[] newMove = new int[2];
-        Square newSquare;
-        int[][] knightMoves = knight.getMoveSet();
+        int[] newSquare;
+        int[][] knightMoves = Knight.getMoveSet();
         for(int i = 0; i < knightMoves.length; i++)
         {
-            currentMove = square.getCoordinates();
-            newMove[0] = currentMove[0] + knightMoves[i][0];
-            newMove[1] = currentMove[1] + knightMoves[i][1];
+            newMove[0] = square[0] + knightMoves[i][0];
+            newMove[1] = square[1] + knightMoves[i][1];
             if(isValid(newMove) && isUnexplored(newMove))
             {
                 newSquare = getSquareFromBoard(newMove);
@@ -83,7 +74,7 @@ class Pathfinding
     private boolean isValid(int[] coordinates)
     {
         boolean overflows = coordinates[0] > board.getX() || coordinates[1] > board.getY();
-        boolean underflows = coordinates[0] < 1 || coordinates[1] < 1 ;
+        boolean underflows = coordinates[0] < 1 || coordinates[1] < 1 ; 
         if(!overflows && !underflows)
         {
             return true;
@@ -93,7 +84,7 @@ class Pathfinding
 
     public boolean isUnexplored(int[] currentMove)
     {
-        Square currentSquare = getSquareFromBoard(currentMove);
+        int[] currentSquare = getSquareFromBoard(currentMove);
         if(!checkList.containsKey(currentSquare) || checkList.get(currentSquare) == false)
         {
             return true;
@@ -103,11 +94,11 @@ class Pathfinding
 
     private void giveDepth(int depth)
     {
-        System.out.println(depth + ": " + printList(this.searchQueue));
-        adjMap.put(depth, this.searchQueue);
+        adjMap.put(depth, new ArrayList<int[]>(searchQueue));
+        System.out.println(depth + ": " + printList(searchQueue));
     }
 
-    private Square getSquareFromBoard(int[] coordinates)
+    private int[] getSquareFromBoard(int[] coordinates)
     {
         int index = coordinatesToNum(coordinates) - 1;
         if(index >= board.getSquares().size() || index < 0)
@@ -127,12 +118,12 @@ class Pathfinding
         return (this.board.getY() * (coord[1] - 1)) + coord[0];
     }
 
-    private String printList(ArrayList<Square> list)
+    private String printList(ArrayList<int[]> list)
     {
         String str = "";
         for(int i = 0; i < list.size(); i++)
         {
-            str += Arrays.toString(list.get(i).getCoordinates()) + ", "; 
+            str += Arrays.toString(list.get(i)) + ", "; 
         }
         return str;
     }
