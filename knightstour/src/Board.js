@@ -14,8 +14,7 @@ function Board()
 
     const[apiLoading, setApiLoading] = useState(false);
     const[knightPath, setKnightPath] = useState([])
-
-    const api = '';
+    const api = 'https://178f9c57-9747-491e-863f-6fda4eee8b12.mock.pstmn.io/pathfind/find?knight='+knightLoc[0]+','+knightLoc[1]+'&x='+boardDimensions.x+'&y='+boardDimensions.x;
 
     useEffect(() => {
         var tempArray = [];
@@ -34,7 +33,16 @@ function Board()
             }
         }
         setBoardSquares(tempArray);
-    }, [boardDimensions, knightLoc])
+    }, [boardDimensions])
+
+    useEffect(() => {
+        if(knightLoc.length > 0)
+        {
+            fetch(api)
+            .then((response) => response.json())
+            .then((json) => console.log(json))
+        }
+    }, [knightLoc])
 
     const knightOnSquare = (x,y) => {
         if (knightLoc.length < 2) return false;

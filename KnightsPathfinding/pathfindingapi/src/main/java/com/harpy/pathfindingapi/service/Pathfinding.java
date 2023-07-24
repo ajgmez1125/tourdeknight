@@ -6,7 +6,7 @@ import java.util.Arrays;
 
 public class Pathfinding
 {
-    private HashMap<Integer, ArrayList<int[]>> adjMap = new HashMap<Integer, ArrayList<int[]>>();
+    private HashMap<Integer, Integer> adjMap = new HashMap<Integer, Integer>();
     private HashMap<int[], Boolean> checkList = new HashMap<int[], Boolean>();
     private ArrayList<int[]> searchQueue = new ArrayList<int[]>();
     private Board board;
@@ -19,7 +19,7 @@ public class Pathfinding
     }
     
 
-    public HashMap<Integer, ArrayList<int[]>> generate()
+    public HashMap<Integer, Integer> generate()
     {
         //Adds the init position of knight to search
         searchQueue.add(getSquareFromBoard(knight.getCoordinates()));
@@ -71,6 +71,26 @@ public class Pathfinding
         return currentAdjacencies;
     }
 
+    private void giveDepth(int depth)
+    {
+        for(int i = 0; i < searchQueue.size(); i++)
+        {
+            int squareNum = coordinatesToNum(searchQueue.get(i));
+            adjMap.put(squareNum, depth);
+        }
+        System.out.println(depth + ": " + printList(searchQueue));
+    }
+
+    private int[] getSquareFromBoard(int[] coordinates)
+    {
+        int index = coordinatesToNum(coordinates) - 1;
+        if(index >= board.getSquares().size() || index < 0)
+        {
+            return null;
+        }
+        return board.getSquares().get(index);
+    }
+
     private boolean isValid(int[] coordinates)
     {
         boolean overflows = coordinates[0] > board.getX() || coordinates[1] > board.getY();
@@ -90,22 +110,6 @@ public class Pathfinding
             return true;
         }
         return false;
-    }
-
-    private void giveDepth(int depth)
-    {
-        adjMap.put(depth, new ArrayList<int[]>(searchQueue));
-        System.out.println(depth + ": " + printList(searchQueue));
-    }
-
-    private int[] getSquareFromBoard(int[] coordinates)
-    {
-        int index = coordinatesToNum(coordinates) - 1;
-        if(index >= board.getSquares().size() || index < 0)
-        {
-            return null;
-        }
-        return board.getSquares().get(index);
     }
 
 

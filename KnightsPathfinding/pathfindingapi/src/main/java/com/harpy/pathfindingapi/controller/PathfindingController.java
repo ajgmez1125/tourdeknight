@@ -1,5 +1,4 @@
 package com.harpy.pathfindingapi.controller;
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,7 +20,7 @@ public class PathfindingController
     }
 
     @GetMapping("/find")
-    public HashMap<Integer, ArrayList<int[]>> pathfind(@RequestParam int[] knight, int x, int y)
+    public HashMap<Integer, Integer> pathfind(@RequestParam int[] knight, int x, int y)
     {
         return pathfindingService.find(knight, x, y);
     }
