@@ -3,11 +3,10 @@ import { PieceConstants } from './PieceConstants';
 import { useDrop } from 'react-dnd'
 import Knight from './Knight.js'
 
-function Square({key, coordinates, hasKnight, children})
+function Square({key, coordinates, hasKnight, children, moveColor})
 {
     const [squareCoordinates] = useState(coordinates)
     const [color, setColor] = useState();
-    const [numOfMoves, setNumOfMoves] = useState();
 
     const[{isOver}, drop] = useDrop(
         () => ({
@@ -27,10 +26,13 @@ function Square({key, coordinates, hasKnight, children})
             setColor('white')
         }
     }, [])
+
     return(
-        <div className = 'square' style={{backgroundColor: color}} ref = {drop}>
-            {children}
-        </div>
+            <div className = 'square' style={{backgroundColor: color}} ref = {drop}>
+                <div className = 'parent-square' style = {{opacity: '50%', backgroundColor: moveColor}}>
+                {children}
+                </div>
+            </div>
     )
 }
 

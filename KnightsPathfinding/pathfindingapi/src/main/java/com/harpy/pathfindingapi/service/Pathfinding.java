@@ -6,7 +6,7 @@ import java.util.Arrays;
 
 public class Pathfinding
 {
-    private HashMap<Integer, Integer> adjMap = new HashMap<Integer, Integer>();
+    private HashMap<String, Integer> adjMap = new HashMap<String, Integer>();
     private HashMap<int[], Boolean> checkList = new HashMap<int[], Boolean>();
     private ArrayList<int[]> searchQueue = new ArrayList<int[]>();
     private Board board;
@@ -19,7 +19,7 @@ public class Pathfinding
     }
     
 
-    public HashMap<Integer, Integer> generate()
+    public HashMap<String, Integer> generate()
     {
         //Adds the init position of knight to search
         searchQueue.add(getSquareFromBoard(knight.getCoordinates()));
@@ -39,9 +39,11 @@ public class Pathfinding
     private void findNextDepth()
     {
         ArrayList<int[]> nextDepth = new ArrayList<int[]>();
+        ArrayList<int[]> adjacentSquares;
         for(int i = 0; i < searchQueue.size(); i++)
         {
-            nextDepth.addAll(getAdjacentSquares(searchQueue.get(i)));
+            adjacentSquares = getAdjacentSquares(searchQueue.get(i));
+            nextDepth.addAll(adjacentSquares);
         }
         searchQueue.clear();
         if(!nextDepth.isEmpty())
@@ -76,19 +78,9 @@ public class Pathfinding
         for(int i = 0; i < searchQueue.size(); i++)
         {
             int squareNum = coordinatesToNum(searchQueue.get(i));
-            adjMap.put(squareNum, depth);
+            adjMap.put(Integer.toString(squareNum), depth);
         }
         System.out.println(depth + ": " + printList(searchQueue));
-    }
-
-    private int[] getSquareFromBoard(int[] coordinates)
-    {
-        int index = coordinatesToNum(coordinates) - 1;
-        if(index >= board.getSquares().size() || index < 0)
-        {
-            return null;
-        }
-        return board.getSquares().get(index);
     }
 
     private boolean isValid(int[] coordinates)
@@ -112,14 +104,16 @@ public class Pathfinding
         return false;
     }
 
+    private int[] getSquareFromBoard(int[] coordinates)
+    {
+        int index = coordinatesToNum(coordinates) - 1;
+        return board.getSquares().get(index);
+    }
 
+    //THE LOGIC FOR THIS METHOD FALLS APART WITH NON CONVENTIONAL BOARD SIZES PLS FIX
     private int coordinatesToNum(int[] coord)
     {
-        if(coord[1] == 1)
-        {
-            return coord[0];
-        }
-        return (this.board.getY() * (coord[1] - 1)) + coord[0];
+        return coord[0] + ((coord[1] - 1) * (this.board.getY() - 1));
     }
 
     private String printList(ArrayList<int[]> list)

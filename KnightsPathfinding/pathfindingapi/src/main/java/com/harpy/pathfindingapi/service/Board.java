@@ -26,7 +26,7 @@ public class Board
         }
     }
 
-    public HashMap<Integer, Integer> generateObjAdjacencyMap(Knight knight)
+    public HashMap<String, Integer> generateObjAdjacencyMap(Knight knight)
     {
         return new Pathfinding(this, knight).generate();
     }

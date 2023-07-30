@@ -12,8 +12,9 @@ public class PathfindingService
 
     }
 
-    public HashMap<Integer, Integer> find(int[] knightPosition, int boardX, int boardY)
+    public HashMap<String, Integer> find(int[] knightPosition, int boardX, int boardY)
     {
-        return new Board(boardX, boardY).generateObjAdjacencyMap(new Knight(knightPosition));
+        Knight knight = new Knight(knightPosition);
+        return new Board(boardX, boardY).generateObjAdjacencyMap(knight);
     }
 }

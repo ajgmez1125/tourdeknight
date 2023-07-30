@@ -11,12 +11,31 @@ function Board()
     const[knightLoc, setKnightLoc] = useState([])
     const[boardDimensions, setBoardDimensions] = useState({x: 8, y: 8})
     const[boardSquares, setBoardSquares] = useState([[]])
-
+    const[adjacencyList, setAdjacencyList] = useState({})
+    const adjColors = {
+        1: 'blue',
+        2: 'purple',
+        3: 'green',
+        4: 'pink',
+        5: 'yellow',
+        6: 'orange',
+        7: 'red'
+    }
     const[apiLoading, setApiLoading] = useState(false);
     const[knightPath, setKnightPath] = useState([])
-    const api = 'https://178f9c57-9747-491e-863f-6fda4eee8b12.mock.pstmn.io/pathfind/find?knight='+knightLoc[0]+','+knightLoc[1]+'&x='+boardDimensions.x+'&y='+boardDimensions.x;
+    const api = 'http://localhost:8080/pathfind/find?knight='+knightLoc[0]+','+knightLoc[1]+'&x='+boardDimensions.x+'&y='+boardDimensions.y;
 
     useEffect(() => {
+        if(knightLoc.length > 0)
+        {
+            console.log(api)
+            fetch(api)
+            .then((response) => response.json())
+            .then((json) => {
+                console.log(json)
+                setAdjacencyList(json)
+            })
+        }
         var tempArray = [];
         setBoardSquares([])
         var squareCount = 0;
@@ -25,24 +44,16 @@ function Board()
             tempArray.push([])
             for(var x = 1; x <= boardDimensions.x; x++)
             {
+                console.log(squareCount)
                 squareCount++
                 tempArray[y - 1].push(
-                <Square key = {squareCount} coordinates = {[x, y]} hasKnight = {setKnightLoc}>
+                <Square key = {squareCount} coordinates = {[x, y]} hasKnight = {setKnightLoc} moveColor = {getMoveColor(getNumOfMoves(squareCount + 1))}>
                     {knightOnSquare(x,y) ? <Knight piece = {PieceConstants.KNIGHT}/> : null}
                 </Square>)
             }
         }
         setBoardSquares(tempArray);
-    }, [boardDimensions])
-
-    useEffect(() => {
-        if(knightLoc.length > 0)
-        {
-            fetch(api)
-            .then((response) => response.json())
-            .then((json) => console.log(json))
-        }
-    }, [knightLoc])
+    }, [boardDimensions, knightLoc])
 
     const knightOnSquare = (x,y) => {
         if (knightLoc.length < 2) return false;
@@ -69,6 +80,16 @@ function Board()
             }
             return <tbody>{JSXReturn}</tbody>
         }
+    }
+
+    const getMoveColor = (numOfMoves) => {
+        return adjColors.numOfMoves
+    }
+
+    const getNumOfMoves = (squareNum) => {
+        let numString = squareNum.toString()
+        console.log(adjacencyList.squareNum)
+        return adjacencyList.numString;
     }
 
     const renderScreen = () => {
