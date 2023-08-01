@@ -7,7 +7,7 @@ public class Board
 {
     private int x;
     private int y;
-    private ArrayList<int[]> squares = new ArrayList<int[]>();
+    private ArrayList<ArrayList<int[]>> squares = new ArrayList<ArrayList<int[]>>();
     public Board(int x, int y)
     {
         this.x = x;
@@ -19,9 +19,10 @@ public class Board
     {
         for(int y = 1; y <= this.y; y++)
         {
+            squares.add(new ArrayList<int[]>());
             for(int x = 1; x <= this.x; x++)
             {
-                squares.add(new int[] {x,y});
+                squares.get(y-1).add(new int[] {x, y});
             }
         }
     }
@@ -41,7 +42,7 @@ public class Board
         return this.y;
     }
 
-    public ArrayList<int[]> getSquares()
+    public ArrayList<ArrayList<int[]>> getSquares()
     {
         return this.squares;
     }

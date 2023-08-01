@@ -46,6 +46,7 @@ public class Pathfinding
             nextDepth.addAll(adjacentSquares);
         }
         searchQueue.clear();
+        System.out.println(printList(nextDepth));
         if(!nextDepth.isEmpty())
         {
             searchQueue.addAll(nextDepth);
@@ -77,8 +78,7 @@ public class Pathfinding
     {
         for(int i = 0; i < searchQueue.size(); i++)
         {
-            int squareNum = coordinatesToNum(searchQueue.get(i));
-            adjMap.put(Integer.toString(squareNum), depth);
+            adjMap.put(Arrays.toString(searchQueue.get(i)), depth);
         }
         System.out.println(depth + ": " + printList(searchQueue));
     }
@@ -106,14 +106,7 @@ public class Pathfinding
 
     private int[] getSquareFromBoard(int[] coordinates)
     {
-        int index = coordinatesToNum(coordinates) - 1;
-        return board.getSquares().get(index);
-    }
-
-    //THE LOGIC FOR THIS METHOD FALLS APART WITH NON CONVENTIONAL BOARD SIZES PLS FIX
-    private int coordinatesToNum(int[] coord)
-    {
-        return coord[0] + ((coord[1] - 1) * (this.board.getY() - 1));
+        return board.getSquares().get(coordinates[1] - 1).get(coordinates[0] - 1);
     }
 
     private String printList(ArrayList<int[]> list)

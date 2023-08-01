@@ -44,10 +44,9 @@ function Board()
             tempArray.push([])
             for(var x = 1; x <= boardDimensions.x; x++)
             {
-                console.log(squareCount)
                 squareCount++
                 tempArray[y - 1].push(
-                <Square key = {squareCount} coordinates = {[x, y]} hasKnight = {setKnightLoc} moveColor = {getMoveColor(getNumOfMoves(squareCount + 1))}>
+                <Square key = {squareCount} coordinates = {[x, y]} hasKnight = {setKnightLoc} moveColor = {getMoveColor(getNumOfMoves({x, y}))}>
                     {knightOnSquare(x,y) ? <Knight piece = {PieceConstants.KNIGHT}/> : null}
                 </Square>)
             }
@@ -86,9 +85,10 @@ function Board()
         return adjColors.numOfMoves
     }
 
-    const getNumOfMoves = (squareNum) => {
-        let numString = squareNum.toString()
-        console.log(adjacencyList.squareNum)
+    const getNumOfMoves = (squareCoordinates) => {
+        console.log(squareCoordinates)
+        let coordinatesString = "["+squareCoordinates[0]+", "+squareCoordinates[1]+"]"
+        console.log(coordinatesString)
         return adjacencyList.numString;
     }
 
