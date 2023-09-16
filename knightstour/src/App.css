@@ -2,15 +2,15 @@
   text-align: center;
 }
 
+.square img{
+  margin-top: 10px;
+}
+
+
 .square{
   border: 1px solid black;
-  height: 50px;
-  width: 50px;
-  display: inline-block;
-  height: 50px;
-  width: 50px;
-  padding-top: 3px;
-  align-items: center;
+  height: 80px;
+  width: 80px;
 }
 
 .board-squares{

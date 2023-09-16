@@ -14,7 +14,7 @@ function Knight({piece, square})
     return(
         <>
         <DragPreviewImage src = {knight} connect = {dragPreview}/>
-        <img src = {knight} ref = {drag}/>
+        <img src = {knight} ref = {drag} style = {{opacity: '100%'}}/>
         </>
     )    
 }

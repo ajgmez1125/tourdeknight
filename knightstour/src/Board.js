@@ -13,6 +13,7 @@ function Board()
     const[boardSquares, setBoardSquares] = useState([[]])
     const[adjacencyList, setAdjacencyList] = useState({})
     const adjColors = {
+        0: null,
         1: 'blue',
         2: 'purple',
         3: 'green',
@@ -22,7 +23,6 @@ function Board()
         7: 'red'
     }
     const[apiLoading, setApiLoading] = useState(false);
-    const[knightPath, setKnightPath] = useState([])
     const api = 'http://localhost:8080/pathfind/find?knight='+knightLoc[0]+','+knightLoc[1]+'&x='+boardDimensions.x+'&y='+boardDimensions.y;
 
     useEffect(() => {
@@ -32,10 +32,24 @@ function Board()
             fetch(api)
             .then((response) => response.json())
             .then((json) => {
-                console.log(json)
                 setAdjacencyList(json)
             })
         }
+        else
+        {
+            loadBoard()
+        }
+    }, [boardDimensions, knightLoc])
+
+    useEffect(() => {
+        if(Object.keys(adjacencyList).length !== 0)
+        {
+            loadBoard();
+        }
+    }, [adjacencyList])
+
+    const loadBoard = () => {
+        console.log('loading board')
         var tempArray = [];
         setBoardSquares([])
         var squareCount = 0;
@@ -46,13 +60,13 @@ function Board()
             {
                 squareCount++
                 tempArray[y - 1].push(
-                <Square key = {squareCount} coordinates = {[x, y]} hasKnight = {setKnightLoc} moveColor = {getMoveColor(getNumOfMoves({x, y}))}>
+                <Square key = {squareCount} coordinates = {[x, y]} hasKnight = {setKnightLoc} moves = {getNumOfMoves([x, y])}>
                     {knightOnSquare(x,y) ? <Knight piece = {PieceConstants.KNIGHT}/> : null}
                 </Square>)
             }
         }
         setBoardSquares(tempArray);
-    }, [boardDimensions, knightLoc])
+    }
 
     const knightOnSquare = (x,y) => {
         if (knightLoc.length < 2) return false;
@@ -82,14 +96,12 @@ function Board()
     }
 
     const getMoveColor = (numOfMoves) => {
-        return adjColors.numOfMoves
+        return adjColors[numOfMoves]
     }
 
     const getNumOfMoves = (squareCoordinates) => {
-        console.log(squareCoordinates)
         let coordinatesString = "["+squareCoordinates[0]+", "+squareCoordinates[1]+"]"
-        console.log(coordinatesString)
-        return adjacencyList.numString;
+        return adjacencyList[coordinatesString];
     }
 
     const renderScreen = () => {
